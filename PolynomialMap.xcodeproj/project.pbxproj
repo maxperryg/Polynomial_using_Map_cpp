@@ -25,6 +25,8 @@
 /* Begin PBXFileReference section */
 		72934A5F21BDAE9F006A565F /* PolynomialMap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PolynomialMap; sourceTree = BUILT_PRODUCTS_DIR; };
 		72934A6221BDAE9F006A565F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		72934A6A21BDC834006A565F /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = ../../Polynomial/Polynomial/en.lproj/Numbers.txt; sourceTree = "<group>"; };
+		72934A6C21BDCED1006A565F /* output.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = output.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +59,9 @@
 		72934A6121BDAE9F006A565F /* PolynomialMap */ = {
 			isa = PBXGroup;
 			children = (
+				72934A6921BDC834006A565F /* Numbers.txt */,
 				72934A6221BDAE9F006A565F /* main.cpp */,
+				72934A6C21BDCED1006A565F /* output.txt */,
 			);
 			path = PolynomialMap;
 			sourceTree = "<group>";
@@ -123,6 +127,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		72934A6921BDC834006A565F /* Numbers.txt */ = {
+			isa = PBXVariantGroup;
+			children = (
+				72934A6A21BDC834006A565F /* en */,
+			);
+			name = Numbers.txt;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		72934A6421BDAE9F006A565F /* Debug */ = {

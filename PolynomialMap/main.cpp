@@ -8,9 +8,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include<map>
 using namespace std;
 
-void constructPolynomial(int polynomial[], string line){
+void constructPolynomial(map<int, int> &polynomial, string line){
     for (int i=0; i<line.length(); i++) {
         int degree = 0;
         int coef = 0;
@@ -19,7 +20,8 @@ void constructPolynomial(int polynomial[], string line){
         if(line.substr(i,1) == "-"){
             stringstream(line.substr(i,2))>>coef;
             stringstream(line.substr(i+2,1))>>degree;
-            polynomial[degree]+=coef;
+            polynomial.insert({degree, coef});
+            //polynomial[degree]+=coef;
             i+=2;
             continue;
         }
@@ -28,106 +30,124 @@ void constructPolynomial(int polynomial[], string line){
             stringstream(sub)>>coef;
             sub = line.substr((i+1),1);
             stringstream(sub)>>degree;
-            polynomial[degree]+=coef;
+            polynomial.insert({degree, coef});
+            //polynomial[degree]+=coef;
             i+=1;
         }
     }
 }
 
-void printPoly(int polynomial[]){
+string printPoly(map<int, int> &polynomial){
     stringstream convert;
     string ans="";
-    for(int i = 99; i>=0; i--){
-        if(polynomial[i] == 0){
-            continue;
-        }
+    for (auto i = polynomial.rbegin(); i != polynomial.rend(); ++i){
+        if(i->second==-1){
+            convert<<"-";
+        }else if(i->second==1){
+            convert<<"+";
+        }else if(i->second>1){
+            convert<<"+"<<i->second;
+        }else convert<<i->second;
         
-        //if negative
-        //-1 is a special case, otherwise just print the negative coefficient
-        if(polynomial[i]<0){
-            if (polynomial[i] == -1){
-                convert<<"-";
-            }
-            else convert<<polynomial[i];
-        }
-        
-        //if positive
-        //1 is a special case
-        if(polynomial[i]>0){
-            if (polynomial[i] == 1){
-                convert<<"+";
-            }
-            else convert<<"+"<<polynomial[i];
-        }
-        
-        if (i==1){
-            convert<<"X";
-        }
-        else if (i==0){
-            convert<<"";
-        }
-        else
-            convert<<"X^"<<i;
+        if(i->first!=1){
+            convert<<"X^"<<i->first;
+        }else convert<<"X";
     }
-    
     ans =convert.str();
     if(ans.substr(0,1) == "+") ans = ans.substr(1);
     if(ans == "") cout<<0;
-    cout<<ans<<endl;
+    return ans;
 }
 
-void addPoly(int left[], int right[]){
-    int ans[100];
-    for(int i=99;i>=0;i--){
-        ans[i]= left[i]+right[i];
-    }
-    printPoly(ans);
-}
-
-void subtractPoly(int left[], int right[]){
-    int ans[100];
-    for(int i=99;i>=0;i--){
-        ans[i]= left[i]-right[i];
-    }
-    printPoly(ans);
-}
-
-void multiplyPoly(int left[], int right[]){
-    int ans[100];
-    for(int i = 99; i>=0; i--)ans[i]=0;
-    for(int i = 99; i>=0; i--){
-        if(left[i]!=0){
-            for(int j=99; j>=0;j--){
-                if(right[j]!=0){
-                    ans[i+j] += left[i]*right[j];
-                }
-            }
+string addPoly(map<int, int> &left, map<int, int> &right){
+    map<int, int> ans;
+    auto l = left.rbegin();
+    auto r = right.rbegin();
+    while (l != left.rend() || r != right.rend()){
+        if(l->first == r->first){
+            if(l->second+r->second != 0)
+                ans.insert({l->first,l->second+r->second});
+            ++l;
+            ++r;
+        }
+        else if(l->first > r->first){
+            ans.insert({l->first,l->second});
+            ++l;
+        }
+        else{
+            ans.insert({r->first,r->second});
+            ++r;
         }
     }
-    printPoly(ans);
+    return printPoly(ans);
+}
+
+string subtractPoly(map<int, int> &left, map<int, int> &right){
+    map<int, int> ans;
+    auto l = left.rbegin();
+    auto r = right.rbegin();
+    while (l != left.rend() || r != right.rend()){
+        if(l->first == r->first){
+            if(l->second-r->second != 0)
+                ans.insert({l->first,l->second-r->second});
+            ++l;
+            ++r;
+        }
+        else if(l->first > r->first){
+            ans.insert({l->first,l->second});
+            ++l;
+        }
+        else{
+            ans.insert({r->first,(r->second)*-1});
+            ++r;
+        }
+    }
+    return printPoly(ans);
+}
+
+string multiplyPoly(map<int, int> &left, map<int, int> &right){
+    map<int, int> ans;
+    for (auto l = left.rbegin(); l != left.rend(); ++l){
+        for (auto r = right.rbegin(); r != right.rend(); ++r){
+            if(ans.find(l->first+r->first) != ans.end())
+                ans.at(l->first+r->first)+=l->second*r->second;
+            else ans.insert({l->first+r->first,l->second*r->second});
+        }
+    }
+    return printPoly(ans);
 }
 
 int main() {
     string line;
     ifstream myfile ("/Users/MaxGrossman/Documents/C++WorkSpace/Polynomial/Polynomial/en.lproj/Numbers.txt");
     while(getline(myfile,line)){
-        int left[100];
-        int right[100];
-        for(int i=0;i<100; i++){
-            left[i]=0;
-            right[i]=0;
-        }
+        //int left[100];
+        map<int,int> left;
+        //int right[100];
+        map<int,int> right;
+//        for(int i=0;i<100; i++){
+//            left[i]=0;
+//            right[i]=0;
+//        }
         
         constructPolynomial(left, line);
         getline(myfile,line);
         constructPolynomial(right, line);
+
+        cout<<"left polynomial: "<<printPoly(left)<<endl;
+        cout<<"Right polynomial: "<<printPoly(right)<<endl;
         
-        printPoly(left);
-        printPoly(right);
-        
-        addPoly(left, right);
-        subtractPoly(left, right);
-        multiplyPoly(left, right);
+        ofstream output("/Users/MaxGrossman/Documents/C++WorkSpace/PolynomialMap/PolynomialMap/output.txt");
+        if(output.is_open()){
+            output<<"Sum: "<<printPoly(left)<<" + "<<printPoly(right)<<" = "<<addPoly(left, right)<<endl;
+            output<<"Difference: "<<printPoly(left)<<" - ("<<printPoly(right)<<") = "<<subtractPoly(left, right)<<endl;
+            output<<"Product: "<<"("<<printPoly(left)<<")("<<printPoly(right)<<") = "<<multiplyPoly(left, right)<<endl;
+            output.close();
+        }
+        else cout<<"couldn't open the file"<<endl;
+        cout<<"Sum: "<<printPoly(left)<<" + "<<printPoly(right)<<" = "<<addPoly(left, right)<<endl;
+        cout<<"Difference: "<<printPoly(left)<<" - ("<<printPoly(right)<<") = "<<subtractPoly(left, right)<<endl;
+        cout<<"Product: "<<"("<<printPoly(left)<<")("<<printPoly(right)<<") = "<<multiplyPoly(left, right)<<endl;
     }
     myfile.close();
     
