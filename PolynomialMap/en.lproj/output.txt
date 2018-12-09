@@ -1,3 +1,5 @@
+left polynomial: -2X^2-3X
+Right polynomial: 2X^4+2X^2+3X
 Sum: -2X^2-3X + 2X^4+2X^2+3X = 2X^4
 Difference: -2X^2-3X - (2X^4+2X^2+3X) = -2X^4-4X^2-6X
 Product: (-2X^2-3X)(2X^4+2X^2+3X) = -4X^6-6X^5-4X^4-12X^3-9X^2

@@ -137,8 +137,10 @@ int main() {
         cout<<"left polynomial: "<<printPoly(left)<<endl;
         cout<<"Right polynomial: "<<printPoly(right)<<endl;
         
-        ofstream output("/Users/MaxGrossman/Documents/C++WorkSpace/PolynomialMap/PolynomialMap/output.txt");
+        ofstream output("/Users/MaxGrossman/Documents/C++WorkSpace/PolynomialMap/PolynomialMap/en.lproj/output.txt");
         if(output.is_open()){
+            output<<"left polynomial: "<<printPoly(left)<<endl;
+            output<<"Right polynomial: "<<printPoly(right)<<endl;
             output<<"Sum: "<<printPoly(left)<<" + "<<printPoly(right)<<" = "<<addPoly(left, right)<<endl;
             output<<"Difference: "<<printPoly(left)<<" - ("<<printPoly(right)<<") = "<<subtractPoly(left, right)<<endl;
             output<<"Product: "<<"("<<printPoly(left)<<")("<<printPoly(right)<<") = "<<multiplyPoly(left, right)<<endl;
