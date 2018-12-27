@@ -26,7 +26,6 @@
 		72934A5F21BDAE9F006A565F /* PolynomialMap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PolynomialMap; sourceTree = BUILT_PRODUCTS_DIR; };
 		72934A6221BDAE9F006A565F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		72934A6A21BDC834006A565F /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = ../../Polynomial/Polynomial/en.lproj/Numbers.txt; sourceTree = "<group>"; };
-		72934A6D21BDD42D006A565F /* en */ = {isa = PBXFileReference; lastKnownFileType = text; name = en; path = en.lproj/output.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +60,6 @@
 			children = (
 				72934A6921BDC834006A565F /* Numbers.txt */,
 				72934A6221BDAE9F006A565F /* main.cpp */,
-				72934A6E21BDD42D006A565F /* output.txt */,
 			);
 			path = PolynomialMap;
 			sourceTree = "<group>";
@@ -136,15 +134,6 @@
 			);
 			name = Numbers.txt;
 			sourceTree = "<group>";
-		};
-		72934A6E21BDD42D006A565F /* output.txt */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72934A6D21BDD42D006A565F /* en */,
-			);
-			name = output.txt;
-			path = PolynomialMap;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXVariantGroup section */
 

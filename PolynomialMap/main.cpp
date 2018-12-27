@@ -63,7 +63,7 @@ string addPoly(map<int, int> &left, map<int, int> &right){
     map<int, int> ans;
     auto l = left.rbegin();
     auto r = right.rbegin();
-    while (l != left.rend() || r != right.rend()){
+    while (l != left.rend() && r != right.rend()){
         if(l->first == r->first){
             if(l->second+r->second != 0)
                 ans.insert({l->first,l->second+r->second});
@@ -79,6 +79,14 @@ string addPoly(map<int, int> &left, map<int, int> &right){
             ++r;
         }
     }
+    while(l != left.rend()){
+        ans.insert({l->first,l->second});
+        ++l;
+    }
+    while(r != right.rend()){
+        ans.insert({r->first,r->second});
+        ++r;
+    }
     return printPoly(ans);
 }
 
@@ -86,10 +94,9 @@ string subtractPoly(map<int, int> &left, map<int, int> &right){
     map<int, int> ans;
     auto l = left.rbegin();
     auto r = right.rbegin();
-    while (l != left.rend() || r != right.rend()){
+    while (l != left.rend() && r != right.rend()){
         if(l->first == r->first){
-            if(l->second-r->second != 0)
-                ans.insert({l->first,l->second-r->second});
+            if(l->second-r->second != 0) ans.insert({l->first,l->second-r->second});
             ++l;
             ++r;
         }
@@ -102,7 +109,16 @@ string subtractPoly(map<int, int> &left, map<int, int> &right){
             ++r;
         }
     }
+    while(l != left.rend()){
+        ans.insert({l->first,l->second});
+        ++l;
+    }
+    while(r != right.rend()){
+        ans.insert({r->first,(r->second)*-1});
+        ++r;
+    }
     return printPoly(ans);
+    
 }
 
 string multiplyPoly(map<int, int> &left, map<int, int> &right){
@@ -121,23 +137,16 @@ int main() {
     string line;
     ifstream myfile ("/Users/MaxGrossman/Documents/C++WorkSpace/Polynomial/Polynomial/en.lproj/Numbers.txt");
     while(getline(myfile,line)){
-        //int left[100];
         map<int,int> left;
-        //int right[100];
         map<int,int> right;
-//        for(int i=0;i<100; i++){
-//            left[i]=0;
-//            right[i]=0;
-//        }
         
         constructPolynomial(left, line);
         getline(myfile,line);
         constructPolynomial(right, line);
-
-        cout<<"left polynomial: "<<printPoly(left)<<endl;
-        cout<<"Right polynomial: "<<printPoly(right)<<endl;
         
-        ofstream output("/Users/MaxGrossman/Documents/C++WorkSpace/PolynomialMap/PolynomialMap/en.lproj/output.txt");
+//        ofstream output("/output.txt");
+        ofstream output;
+        output.open("/Users/MaxGrossman/Documents/C++WorkSpace/PolynomialMap/output.txt");
         if(output.is_open()){
             output<<"left polynomial: "<<printPoly(left)<<endl;
             output<<"Right polynomial: "<<printPoly(right)<<endl;
@@ -147,6 +156,8 @@ int main() {
             output.close();
         }
         else cout<<"couldn't open the file"<<endl;
+        cout<<"left polynomial: "<<printPoly(left)<<endl;
+        cout<<"Right polynomial: "<<printPoly(right)<<endl;
         cout<<"Sum: "<<printPoly(left)<<" + "<<printPoly(right)<<" = "<<addPoly(left, right)<<endl;
         cout<<"Difference: "<<printPoly(left)<<" - ("<<printPoly(right)<<") = "<<subtractPoly(left, right)<<endl;
         cout<<"Product: "<<"("<<printPoly(left)<<")("<<printPoly(right)<<") = "<<multiplyPoly(left, right)<<endl;
